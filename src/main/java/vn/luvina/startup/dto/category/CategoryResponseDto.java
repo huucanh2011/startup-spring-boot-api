@@ -23,5 +23,5 @@ public class CategoryResponseDto {
 
   @ApiModelProperty(value = "updateDate", example = "2021-05-23T09:24:57.785Z")
   private LocalDateTime updateDate;
-  
+
 }

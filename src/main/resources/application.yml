@@ -14,3 +14,8 @@ spring:
     locations: classpath:db/migration
     check-location: false
     baseline-on-migrate: true
+
+bezkoder:
+  app:
+    jwtSecret: secret
+    jwtExpirationMs: 86400000
