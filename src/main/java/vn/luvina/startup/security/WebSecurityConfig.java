@@ -52,6 +52,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http.csrf().ignoringAntMatchers("/**");
+    http.cors();
     http.httpBasic().authenticationEntryPoint(restAuthenticationEntryPoint());
     http.authorizeRequests().antMatchers("/api/v1/auth/register", "/api/v1/auth/login").permitAll().anyRequest()
         .authenticated();

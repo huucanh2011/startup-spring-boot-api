@@ -1,8 +1,7 @@
 package vn.luvina.startup.dto.auth;
 
-import java.util.UUID;
-
 import lombok.Data;
+import vn.luvina.startup.dto.user.UserResponseDto;
 
 @Data
 public class JwtResponseDto {
@@ -11,10 +10,6 @@ public class JwtResponseDto {
 
   private String type = "Bearer";
 
-  private UUID id;
-
-  private String email;
-
-  private String name;
+  private UserResponseDto user;
 
 }
