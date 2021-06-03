@@ -23,4 +23,15 @@ public class UserMailServiceImpl implements UserMailService {
 
     mailSender.send(message);
   }
+
+  @Override
+  public void sendMailForgotPassword(String email, String token) {
+    SimpleMailMessage message = new SimpleMailMessage();
+
+    message.setTo(email);
+    message.setSubject("Quên mật khẩu.");
+    message.setText("Link: http://localhost:3000/response-password-reset?token=" + token);
+
+    mailSender.send(message);
+  }
 }

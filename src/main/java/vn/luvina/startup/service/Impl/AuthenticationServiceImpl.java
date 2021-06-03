@@ -62,7 +62,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
       User userCreated = userRepository.saveAndFlush(user);
 
-      // userMailService.sendMailRegister(userCreated.getEmail());
+      userMailService.sendMailRegister(userCreated.getEmail());
 
       return registerResponseMapper.convertToRegisterResponseDto(modelMapper.map(userCreated, UserResponseDto.class));
     }
