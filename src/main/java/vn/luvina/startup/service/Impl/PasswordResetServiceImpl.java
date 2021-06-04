@@ -1,13 +1,17 @@
 package vn.luvina.startup.service.Impl;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import vn.luvina.startup.dto.auth.ForgotPasswordRequestDto;
-import vn.luvina.startup.dto.auth.ForgotPasswordResponseDto;
+import vn.luvina.startup.dto.auth.ResetPasswordRequestDto;
+import vn.luvina.startup.dto.base.MessageResponseDto;
 import vn.luvina.startup.exception.ServiceRuntimeException;
 import vn.luvina.startup.model.PasswordReset;
 import vn.luvina.startup.model.User;
@@ -27,17 +31,18 @@ public class PasswordResetServiceImpl implements PasswordResetService {
 
   private final UserMailService userMailService;
 
+  private final PasswordEncoder passwordEncoder;
+
   @Override
-  public ForgotPasswordResponseDto sendMail(ForgotPasswordRequestDto forgotPasswordRequestDto) {
+  public MessageResponseDto sendMail(ForgotPasswordRequestDto forgotPasswordRequestDto) {
     String email = forgotPasswordRequestDto.getEmail();
     if (!validateMail(email)) {
       throw new ServiceRuntimeException(HttpStatus.NOT_FOUND, "Không tìm thấy email.");
     }
     send(email);
-    ForgotPasswordResponseDto forgotPasswordResponseDto = new ForgotPasswordResponseDto();
-    forgotPasswordResponseDto
-        .setMessage("Link reset mật khẩu được gửi thành công, vui lòng kiểm tra hộp thư đến của bạn.");
-    return forgotPasswordResponseDto;
+    MessageResponseDto messageResponseDto = new MessageResponseDto();
+    messageResponseDto.setMessage("Link reset mật khẩu được gửi thành công, vui lòng kiểm tra hộp thư đến của bạn.");
+    return messageResponseDto;
   }
 
   private void send(String email) {
@@ -45,6 +50,7 @@ public class PasswordResetServiceImpl implements PasswordResetService {
     userMailService.sendMailForgotPassword(email, token);
   }
 
+  @Transactional(readOnly = true)
   private String createToken(String email) {
     Optional<PasswordReset> passwordReset = passwordResetRepository.findById(email);
     if (passwordReset.isPresent()) {
@@ -55,6 +61,7 @@ public class PasswordResetServiceImpl implements PasswordResetService {
     return token;
   }
 
+  @Transactional
   private void saveToken(String email, String token) {
     PasswordReset passwordReset = new PasswordReset();
     passwordReset.setEmail(email);
@@ -62,12 +69,37 @@ public class PasswordResetServiceImpl implements PasswordResetService {
     passwordResetRepository.save(passwordReset);
   }
 
+  @Transactional(readOnly = true)
   private boolean validateMail(String email) {
     Optional<User> user = userRepository.findByEmail(email);
     if (user.isPresent()) {
       return true;
     }
     return false;
+  }
+
+  @Override
+  @Transactional
+  public MessageResponseDto resetPassword(ResetPasswordRequestDto resetPasswordRequestDto) {
+    String email = resetPasswordRequestDto.getEmail();
+    String password = resetPasswordRequestDto.getPassword();
+    String resetToken = resetPasswordRequestDto.getResetToken();
+    List<PasswordReset> passwordResets = passwordResetRepository.findAllByEmailAndToken(email, resetToken);
+    if (passwordResets.size() > 0) {
+      User user = userRepository.findByEmail(email).get();
+      user.setPassword(passwordEncoder.encode(password));
+      userRepository.save(user);
+      removePasswordReset(email);
+      MessageResponseDto messageResponseDto = new MessageResponseDto();
+      messageResponseDto.setMessage("Cập nhật mật khẩu thành công.");
+      return messageResponseDto;
+    }
+    throw new ServiceRuntimeException(HttpStatus.UNPROCESSABLE_ENTITY, "Token hoặc email không đúng.");
+  }
+
+  @Transactional
+  private void removePasswordReset(String email) {
+    passwordResetRepository.deleteById(email);
   }
 
 }
