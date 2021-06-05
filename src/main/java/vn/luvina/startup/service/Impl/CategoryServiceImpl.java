@@ -6,6 +6,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -31,10 +32,9 @@ import vn.luvina.startup.util.StartupMessages;
 import vn.luvina.startup.util.StringUtils;
 
 @Service
+@CacheConfig(cacheNames = "categories")
 @RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
-
-  public static final String CACHE_NAME = "categories";
 
   private final CategoryRepository categoryRepository;
 
@@ -50,7 +50,7 @@ public class CategoryServiceImpl implements CategoryService {
 
   @Override
   @Transactional(readOnly = true)
-  @Cacheable(value = CACHE_NAME, key = "#id")
+  @Cacheable(key = "#id")
   public Category findById(UUID id) {
     return categoryRepository.findById(id)
         .orElseThrow(() -> new ServiceRuntimeException(HttpStatus.NOT_FOUND, StartupMessages.ERR_CATEGORY_002));
@@ -58,7 +58,7 @@ public class CategoryServiceImpl implements CategoryService {
 
   @Override
   @Transactional(readOnly = true)
-  @Cacheable(value = CACHE_NAME)
+  @Cacheable
   public CategorySearchResponseDto findAll(CategorySearchRequestDto categorySearchRequestDto) {
     String reqQ = categorySearchRequestDto.getQ();
     Integer reqPage = categorySearchRequestDto.getPage();
@@ -95,7 +95,7 @@ public class CategoryServiceImpl implements CategoryService {
 
   @Override
   @Transactional(readOnly = true)
-  @Cacheable(value = CACHE_NAME, key = "#id")
+  @Cacheable(key = "#id")
   public CategoryResponseDto findOne(UUID id) {
     Optional<Category> category = categoryRepository.findById(id);
     if (category.isPresent()) {
@@ -118,7 +118,7 @@ public class CategoryServiceImpl implements CategoryService {
 
   @Override
   @Transactional
-  @CachePut(value = CACHE_NAME, key = "#id")
+  @CachePut(key = "#id")
   public CategoryResponseDto update(UUID id, CategoryRequestDto categoryRequestDto) {
     Category category = findById(id);
     category.setName(categoryRequestDto.getName());
@@ -129,7 +129,7 @@ public class CategoryServiceImpl implements CategoryService {
 
   @Override
   @Transactional
-  @CacheEvict(value = CACHE_NAME, key = "#id")
+  @CacheEvict(key = "#id")
   public void delete(UUID id) {
     Category category = findById(id);
     categoryRepository.delete(category);
