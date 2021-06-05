@@ -1,6 +1,9 @@
 ## PostgreSQL
 spring:
   datasource:
+    hikari:
+      connectionTimeout: 20000
+      maximumPoolSize: 5
     url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/startup-spring-boot-api}
     username: ${DATABASE_USERNAME:postgres}
     password: ${DATABASE_PASSWORD:Ca201198}
@@ -16,5 +19,5 @@ spring:
     baseline-on-migrate: true
 
 startup:
-  jwtSecret: secret
-  jwtExpirationMs: 86400000
+  jwtSecret: ${JWT_SECRET:secret}
+  jwtExpirationMs: ${JWT_EXPIRATION_MS:86400000}
