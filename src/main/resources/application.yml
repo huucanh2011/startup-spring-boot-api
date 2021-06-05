@@ -8,10 +8,10 @@ spring:
     username: ${DATABASE_USERNAME:postgres}
     password: ${DATABASE_PASSWORD:Ca201198}
   jpa:
-    generate-ddl: true
-    hibernate:
-      #   #drop n create table again, good for testing, comment this in production
-      ddl-auto: update
+    # generate-ddl: true
+    # hibernate:
+    #   #   #drop n create table again, good for testing, comment this in production
+    #   ddl-auto: update
     show-sql: true
   flyway:
     locations: classpath:db/migration
