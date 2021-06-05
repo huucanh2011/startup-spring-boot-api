@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 // import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 
@@ -38,7 +39,6 @@ public class CategoryController {
   @GetMapping
   @ApiOperation("Lấy tất cả thể loại")
   @ApiResponses({ @ApiResponse(code = 200, message = "") })
-  // @PreAuthorize("hasRole('ROLE_USER')")
   public ResponseEntity<CategorySearchResponseDto> getCategories(@RequestParam(required = false) String q, Integer page,
       Integer limit) {
     CategorySearchRequestDto categorySearchRequestDto = new CategorySearchRequestDto();
@@ -56,6 +56,7 @@ public class CategoryController {
   }
 
   @PostMapping
+  @PreAuthorize("hasAuthority('ADMIN')")
   @ApiOperation("Tạo mới thể loại")
   @ApiResponses({ @ApiResponse(code = 201, message = "") })
   public ResponseEntity<CategoryResponseDto> createCategory(@Valid @RequestBody CategoryRequestDto categoryRequestDto) {
@@ -63,6 +64,7 @@ public class CategoryController {
   }
 
   @PutMapping("/{categoryId}")
+  @PreAuthorize("hasAuthority('ADMIN')")
   @ApiOperation("Cập nhật thể loại")
   @ApiResponses({ @ApiResponse(code = 200, message = "") })
   public ResponseEntity<CategoryResponseDto> updateCategory(@PathVariable(value = "categoryId") UUID categoryId,
@@ -71,6 +73,7 @@ public class CategoryController {
   }
 
   @DeleteMapping("/{categoryId}")
+  @PreAuthorize("hasAuthority('ADMIN')")
   @ApiOperation("Xoá thể loại")
   @ApiResponses({ @ApiResponse(code = 204, message = "") })
   public ResponseEntity<?> deleteCategory(@PathVariable(value = "categoryId") UUID categoryId) {

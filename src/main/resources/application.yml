@@ -15,7 +15,6 @@ spring:
     check-location: false
     baseline-on-migrate: true
 
-bezkoder:
-  app:
-    jwtSecret: secret
-    jwtExpirationMs: 86400000
+startup:
+  jwtSecret: secret
+  jwtExpirationMs: 86400000

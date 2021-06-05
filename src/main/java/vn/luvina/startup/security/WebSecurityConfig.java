@@ -2,6 +2,7 @@ package vn.luvina.startup.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -45,7 +46,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     return new BCryptPasswordEncoder(10);
   }
 
-  public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
+  @Override
+  public void configure(AuthenticationManagerBuilder auth) throws Exception {
     auth.userDetailsService(userDetailsServiceImpl).passwordEncoder(passwordEncoder());
   }
 
@@ -68,7 +70,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         "/**/*.css", 
         "/**/*.js"
       ).permitAll()
-      .antMatchers("/api/v1/auth/**").permitAll()
+      .antMatchers(HttpMethod.GET).permitAll()
+      .antMatchers(
+        "/api/v1/auth/register",
+        "/api/v1/auth/login",
+        "/api/v1/auth/forgot-password",
+        "/api/v1/auth/reset-password"
+      ).permitAll()
       .anyRequest().authenticated();
     http.addFilterBefore(JwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
   }

@@ -21,13 +21,13 @@ import vn.luvina.startup.dto.category.CategoryRequestDto;
 import vn.luvina.startup.dto.category.CategoryResponseDto;
 import vn.luvina.startup.dto.category.CategorySearchRequestDto;
 import vn.luvina.startup.dto.category.CategorySearchResponseDto;
-import vn.luvina.startup.exception.ErrorMessages;
 import vn.luvina.startup.exception.ServiceRuntimeException;
 import vn.luvina.startup.mapper.MetaMapper;
 import vn.luvina.startup.model.Category;
 import vn.luvina.startup.repository.CategoryRepository;
 import vn.luvina.startup.service.CategoryService;
 import vn.luvina.startup.util.Constants;
+import vn.luvina.startup.util.StartupMessages;
 import vn.luvina.startup.util.StringUtils;
 
 @Service
@@ -53,7 +53,7 @@ public class CategoryServiceImpl implements CategoryService {
   @Cacheable(value = CACHE_NAME, key = "#id")
   public Category findById(UUID id) {
     return categoryRepository.findById(id)
-        .orElseThrow(() -> new ServiceRuntimeException(HttpStatus.NOT_FOUND, ErrorMessages.ERR_CATEGORY_002));
+        .orElseThrow(() -> new ServiceRuntimeException(HttpStatus.NOT_FOUND, StartupMessages.ERR_CATEGORY_002));
   }
 
   @Override
@@ -101,7 +101,7 @@ public class CategoryServiceImpl implements CategoryService {
     if (category.isPresent()) {
       return modelMapper.map(category.get(), CategoryResponseDto.class);
     }
-    throw new ServiceRuntimeException(HttpStatus.NOT_FOUND, ErrorMessages.ERR_CATEGORY_002);
+    throw new ServiceRuntimeException(HttpStatus.NOT_FOUND, StartupMessages.ERR_CATEGORY_002);
   }
 
   @Override
@@ -113,7 +113,7 @@ public class CategoryServiceImpl implements CategoryService {
       Category categoryCreated = categoryRepository.saveAndFlush(category);
       return modelMapper.map(categoryCreated, CategoryResponseDto.class);
     }
-    throw new ServiceRuntimeException(HttpStatus.BAD_REQUEST, ErrorMessages.ERR_CATEGORY_001);
+    throw new ServiceRuntimeException(HttpStatus.BAD_REQUEST, StartupMessages.ERR_CATEGORY_001);
   }
 
   @Override

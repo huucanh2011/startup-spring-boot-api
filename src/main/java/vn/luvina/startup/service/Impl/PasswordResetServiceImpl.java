@@ -20,6 +20,7 @@ import vn.luvina.startup.repository.UserRepository;
 import vn.luvina.startup.service.PasswordResetService;
 import vn.luvina.startup.service.UserMailService;
 import vn.luvina.startup.util.RandomStringUtil;
+import vn.luvina.startup.util.StartupMessages;
 
 @Service
 @RequiredArgsConstructor
@@ -37,11 +38,11 @@ public class PasswordResetServiceImpl implements PasswordResetService {
   public MessageResponseDto sendMail(ForgotPasswordRequestDto forgotPasswordRequestDto) {
     String email = forgotPasswordRequestDto.getEmail();
     if (!validateMail(email)) {
-      throw new ServiceRuntimeException(HttpStatus.NOT_FOUND, "Không tìm thấy email.");
+      throw new ServiceRuntimeException(HttpStatus.NOT_FOUND, StartupMessages.ERR_AUTH_003);
     }
     send(email);
     MessageResponseDto messageResponseDto = new MessageResponseDto();
-    messageResponseDto.setMessage("Link reset mật khẩu được gửi thành công, vui lòng kiểm tra hộp thư đến của bạn.");
+    messageResponseDto.setMessage(StartupMessages.MSG_AUTH_002);
     return messageResponseDto;
   }
 
@@ -91,10 +92,10 @@ public class PasswordResetServiceImpl implements PasswordResetService {
       userRepository.save(user);
       removePasswordReset(email);
       MessageResponseDto messageResponseDto = new MessageResponseDto();
-      messageResponseDto.setMessage("Cập nhật mật khẩu thành công.");
+      messageResponseDto.setMessage(StartupMessages.MSG_AUTH_003);
       return messageResponseDto;
     }
-    throw new ServiceRuntimeException(HttpStatus.UNPROCESSABLE_ENTITY, "Token hoặc email không đúng.");
+    throw new ServiceRuntimeException(HttpStatus.UNPROCESSABLE_ENTITY, StartupMessages.ERR_AUTH_004);
   }
 
   @Transactional

@@ -5,6 +5,7 @@ import javax.persistence.MappedSuperclass;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
@@ -12,6 +13,7 @@ import lombok.Data;
 @EntityListeners(AuditingEntityListener.class)
 public class BaseResponseDto {
 
+  @ApiModelProperty(value = "message", example = "Đăng ký thành công.")
   private String message;
 
 }

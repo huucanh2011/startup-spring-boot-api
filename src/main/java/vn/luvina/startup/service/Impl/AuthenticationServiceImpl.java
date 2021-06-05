@@ -7,7 +7,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -19,17 +18,16 @@ import vn.luvina.startup.dto.auth.LoginRequestDto;
 import vn.luvina.startup.dto.auth.RegisterRequestDto;
 import vn.luvina.startup.dto.auth.RegisterResponseDto;
 import vn.luvina.startup.dto.user.UserResponseDto;
-import vn.luvina.startup.enums.UserRole;
-import vn.luvina.startup.enums.UserStatus;
 import vn.luvina.startup.exception.ServiceRuntimeException;
 import vn.luvina.startup.mapper.JwtResponseMapper;
-import vn.luvina.startup.mapper.RegisterResponseMapper;
+import vn.luvina.startup.mapper.RegisterUserMapper;
 import vn.luvina.startup.model.User;
 import vn.luvina.startup.repository.UserRepository;
 import vn.luvina.startup.security.jwt.JwtUtils;
 import vn.luvina.startup.security.services.UserDetailsImpl;
 import vn.luvina.startup.service.AuthenticationService;
 import vn.luvina.startup.service.UserMailService;
+import vn.luvina.startup.util.StartupMessages;
 
 @Service
 @RequiredArgsConstructor
@@ -43,11 +41,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
   private final JwtResponseMapper jwtResponseMapper;
 
-  private final RegisterResponseMapper registerResponseMapper;
+  private final RegisterUserMapper registerUserMapper;
 
   private final JwtUtils jwtUtils;
-
-  private final PasswordEncoder passwordEncoder;
 
   private final UserMailService userMailService;
 
@@ -55,22 +51,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
   @Transactional
   public RegisterResponseDto register(RegisterRequestDto registerRequestDto) {
     if (!userRepository.existsByEmail(registerRequestDto.getEmail())) {
-      User user = new User();
-      user.setName(registerRequestDto.getName());
-      user.setEmail(registerRequestDto.getEmail());
-      user.setPassword(passwordEncoder.encode(registerRequestDto.getPassword()));
-      user.setRole(UserRole.USER.toString());
-      user.setStatus(UserStatus.ACTIVED.toString());
-
-      User userCreated = userRepository.saveAndFlush(user);
+      User userCreated = userRepository.saveAndFlush(registerUserMapper.convertReqToUser(registerRequestDto));
 
       userMailService.sendMailRegister(userCreated.getEmail());
 
-      return registerResponseMapper.convertToRegisterResponseDto(modelMapper.map(userCreated, UserResponseDto.class));
+      return registerUserMapper.convertToRegisterResponseDto(modelMapper.map(userCreated, UserResponseDto.class));
     }
-
-    throw new ServiceRuntimeException(HttpStatus.BAD_REQUEST, "Email đã được sử dụng.");
-
+    throw new ServiceRuntimeException(HttpStatus.BAD_REQUEST, StartupMessages.ERR_AUTH_002);
   }
 
   @Override
@@ -91,7 +78,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
       return jwtResponseMapper.convertToJwtResponseDto(jwtToken, user);
 
     } catch (BadCredentialsException e) {
-      throw new ServiceRuntimeException(HttpStatus.UNAUTHORIZED, "Email hoặc mật khẩu không đúng.");
+      throw new ServiceRuntimeException(HttpStatus.UNAUTHORIZED, StartupMessages.ERR_AUTH_001);
     }
   }
 

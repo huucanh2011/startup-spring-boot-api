@@ -16,10 +16,10 @@ import vn.luvina.startup.security.services.UserDetailsImpl;
 @Component
 public class JwtUtils {
 
-  @Value("${bezkoder.app.jwtSecret}")
+  @Value("${startup.jwtSecret}")
   private String jwtSecret;
 
-  @Value("${bezkoder.app.jwtExpirationMs}")
+  @Value("${startup.jwtExpirationMs}")
   private Integer jwtExpiration;
 
   public String generateJwtToken(UserDetailsImpl userDetailsImpl) {

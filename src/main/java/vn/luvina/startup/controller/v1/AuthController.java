@@ -4,13 +4,15 @@ import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import vn.luvina.startup.dto.auth.ForgotPasswordRequestDto;
 import vn.luvina.startup.dto.auth.JwtResponseDto;
@@ -21,6 +23,7 @@ import vn.luvina.startup.dto.auth.ResetPasswordRequestDto;
 import vn.luvina.startup.dto.base.MessageResponseDto;
 import vn.luvina.startup.service.AuthenticationService;
 import vn.luvina.startup.service.PasswordResetService;
+import vn.luvina.startup.util.StartupMessages;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -32,27 +35,49 @@ public class AuthController {
   private final PasswordResetService passwordResetService;
 
   @PostMapping("/register")
+  @ApiOperation("Đăng ký")
+  @ApiResponses({
+    @ApiResponse(code = 200, message = ""),
+    @ApiResponse(code = 401, message = StartupMessages.ERR_AUTH_001)
+  })
   public ResponseEntity<RegisterResponseDto> register(@Valid @RequestBody RegisterRequestDto registerRequestDto) {
     return new ResponseEntity<>(authenticationService.register(registerRequestDto), HttpStatus.CREATED);
   }
 
   @PostMapping("/login")
+  @ApiOperation("Đăng nhập")
+  @ApiResponses({
+    @ApiResponse(code = 200, message = ""),
+    @ApiResponse(code = 401, message = StartupMessages.ERR_AUTH_001)
+  })
   public ResponseEntity<JwtResponseDto> login(@Valid @RequestBody LoginRequestDto loginRequestDto) {
     return new ResponseEntity<>(authenticationService.login(loginRequestDto), HttpStatus.OK);
   }
 
-  @GetMapping("/me")
+  @PostMapping("/me")
+  @ApiOperation("Lấy thông tin đăng nhập hiện tại.")
+  @ApiResponses({
+    @ApiResponse(code = 200, message = "")
+  })
   public ResponseEntity<JwtResponseDto> me() {
     return new ResponseEntity<>(authenticationService.me(), HttpStatus.OK);
   }
 
   @PostMapping("/forgot-password")
+  @ApiOperation("Quên mật khẩu.")
+  @ApiResponses({
+    @ApiResponse(code = 200, message = StartupMessages.MSG_AUTH_002)
+  })
   public ResponseEntity<MessageResponseDto> forgotPassword(
       @Valid @RequestBody ForgotPasswordRequestDto forgotPasswordRequestDto) {
     return new ResponseEntity<>(passwordResetService.sendMail(forgotPasswordRequestDto), HttpStatus.OK);
   }
 
-  @PutMapping("reset-password")
+  @PutMapping("/reset-password")
+  @ApiOperation("Reset password.")
+  @ApiResponses({
+    @ApiResponse(code = 200, message = StartupMessages.MSG_AUTH_003)
+  })
   public ResponseEntity<MessageResponseDto> resetPassword(
       @Valid @RequestBody ResetPasswordRequestDto resetPasswordRequestDto) {
     return new ResponseEntity<>(passwordResetService.resetPassword(resetPasswordRequestDto), HttpStatus.OK);
