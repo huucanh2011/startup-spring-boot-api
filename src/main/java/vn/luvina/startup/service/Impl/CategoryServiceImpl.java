@@ -13,6 +13,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -73,7 +74,7 @@ public class CategoryServiceImpl implements CategoryService {
       pageLimit = reqLimit;
     }
 
-    Pageable pageable = PageRequest.of(pageNum - 1, pageLimit);
+    Pageable pageable = PageRequest.of(pageNum - 1, pageLimit, Sort.by("updateDate").descending().and(Sort.by("name")));
 
     Page<Category> page;
 

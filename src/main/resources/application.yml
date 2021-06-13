@@ -15,7 +15,6 @@ spring:
     show-sql: true
   flyway:
     locations: classpath:db/migration
-    check-location: false
     baseline-on-migrate: true
 
 startup:
