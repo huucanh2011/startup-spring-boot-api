@@ -59,7 +59,7 @@ public class CategoryServiceImpl implements CategoryService {
 
   @Override
   @Transactional(readOnly = true)
-  @Cacheable
+  // @Cacheable
   public CategorySearchResponseDto findAll(CategorySearchRequestDto categorySearchRequestDto) {
     String reqQ = categorySearchRequestDto.getQ();
     Integer reqPage = categorySearchRequestDto.getPage();
