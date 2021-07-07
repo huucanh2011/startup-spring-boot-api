@@ -54,12 +54,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
   private final PasswordEncoder passwordEncoder;
 
-  // private final MessageSource
-
   @Override
   @Transactional
   public RegisterResponseDto register(RegisterRequestDto registerRequestDto) {
-    if (!userRepository.existsByEmail(registerRequestDto.getEmail())) {
+    if (!userRepository.existsByEmail(registerRequestDto.getEmail().toLowerCase())) {
       User userCreated = userRepository.saveAndFlush(registerUserMapper.convertReqToUser(registerRequestDto));
       userMailService.sendMailRegister(userCreated.getEmail());
       return registerUserMapper.convertToRegisterResponseDto(modelMapper.map(userCreated, UserResponseDto.class));
@@ -72,7 +70,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
   public JwtResponseDto login(LoginRequestDto loginRequestDto) {
     try {
       Authentication authentication = authenticationManager.authenticate(
-          new UsernamePasswordAuthenticationToken(loginRequestDto.getEmail(), loginRequestDto.getPassword()));
+          new UsernamePasswordAuthenticationToken(loginRequestDto.getEmail().toLowerCase(), loginRequestDto.getPassword()));
       SecurityContextHolder.getContext().setAuthentication(authentication);
       UserDetailsImpl userDetailsImpl = (UserDetailsImpl) authentication.getPrincipal();
       String jwtToken = jwtUtils.generateJwtToken(userDetailsImpl);

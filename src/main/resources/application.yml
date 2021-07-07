@@ -6,7 +6,7 @@ spring:
       maximumPoolSize: 5
     url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/startup-spring-boot-api}
     username: ${DATABASE_USERNAME:postgres}
-    password: ${DATABASE_PASSWORD:Ca201198}
+    password: ${DATABASE_PASSWORD:0000}
   jpa:
     # generate-ddl: true
     # hibernate:

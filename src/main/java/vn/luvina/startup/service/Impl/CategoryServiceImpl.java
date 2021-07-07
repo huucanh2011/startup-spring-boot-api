@@ -67,10 +67,10 @@ public class CategoryServiceImpl implements CategoryService {
     Integer pageNum = Constants.PAGE_DEFAULT;
     Integer pageLimit = Constants.LIMIT_DEFAULT;
 
-    if (reqPage != null) {
+    if (reqPage != null && reqPage.intValue() > reqPage) {
       pageNum = reqPage;
     }
-    if (reqLimit != null) {
+    if (reqLimit != null && reqLimit.intValue() > 0){
       pageLimit = reqLimit;
     }
 
@@ -78,9 +78,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     Page<Category> page;
 
-    if (reqQ == null || reqQ.toString().trim() == "") {
-      page = categoryRepository.findAll(pageable);
-    } else {
+    page = categoryRepository.findAll(pageable);
+    
+    if (reqQ != null && reqQ.toString().trim() != "") {
       page = categoryRepository.findAllByNameIgnoreCaseContainingOrSlugIgnoreCaseContaining(reqQ, reqQ, pageable);
     }
 

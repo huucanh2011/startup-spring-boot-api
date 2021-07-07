@@ -16,4 +16,7 @@ public class StartupMessages {
   public static final String MSG_AUTH_001 = "Đăng ký thành công.";
   public static final String MSG_AUTH_002 = "Link reset mật khẩu được gửi thành công, vui lòng kiểm tra hộp thư đến của bạn.";
   public static final String MSG_AUTH_003 = "Cập nhật mật khẩu thành công.";
+
+  // User message
+  public static final String ERR_USER_001 = "Không tìm thấy user.";
 }
