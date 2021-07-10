@@ -36,4 +36,7 @@ public class StartupMessages {
   //============MESSAGE BRAND================
   public static final String ERR_BRAND_001 = "Không tìm thấy Brand.";
   public static final String ERR_BRAND_002 = "Danh sách Brand đang trống.";
+
+  //Product Message.
+  public static final String ERR_PRO_001 = "Thao tác không thành công";
 }
