@@ -19,4 +19,21 @@ public class StartupMessages {
 
   // User message
   public static final String ERR_USER_001 = "Không tìm thấy user.";
+
+  //============MESSAGE RATING================
+  public static final String ERR_RATING_001 = "Không tìm thấy đánh giá.";
+  public static final String ERR_RATING_002 = "Danh sách đánh giá đang trống.";
+  public static final String ERR_RATING_003 = "Số record trên một page không hợp lệ";
+
+  //============MESSAGE SLIDE================
+  public static final String ERR_SLIDE_001 = "Không tìm thấy slide.";
+  public static final String ERR_SLIDE_002 = "Danh sách slide đang trống.";
+
+  //============MESSAGE SIZE================
+  public static final String ERR_SIZE_001 = "Không tìm thấy Size.";
+  public static final String ERR_SIZE_002 = "Danh sách Size đang trống.";
+
+  //============MESSAGE BRAND================
+  public static final String ERR_BRAND_001 = "Không tìm thấy Brand.";
+  public static final String ERR_BRAND_002 = "Danh sách Brand đang trống.";
 }

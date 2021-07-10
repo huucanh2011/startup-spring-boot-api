@@ -76,8 +76,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         "/api/v1/auth/login",
         "/api/v1/auth/forgot-password",
         "/api/v1/auth/reset-password"
-      ).permitAll()
-      .anyRequest().authenticated();
+      ).permitAll();
+      // .anyRequest().authenticated();
     http.addFilterBefore(JwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
   }
 
