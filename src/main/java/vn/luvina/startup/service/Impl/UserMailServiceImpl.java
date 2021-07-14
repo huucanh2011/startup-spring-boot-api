@@ -30,7 +30,7 @@ public class UserMailServiceImpl implements UserMailService {
 
     message.setTo(email);
     message.setSubject("Quên mật khẩu.");
-    message.setText("Link: http://localhost:3000/response-password-reset?token=" + token);
+    message.setText("Link: http://localhost:8080/auth/reset-password?token=" + token);
 
     mailSender.send(message);
   }
