@@ -67,7 +67,7 @@ public class CategoryServiceImpl implements CategoryService {
     Integer pageNum = Constants.PAGE_DEFAULT;
     Integer pageLimit = Constants.LIMIT_DEFAULT;
 
-    if (reqPage != null && reqPage.intValue() > reqPage) {
+    if (reqPage != null && reqPage.intValue() > pageNum) {
       pageNum = reqPage;
     }
     if (reqLimit != null && reqLimit.intValue() > 0){
