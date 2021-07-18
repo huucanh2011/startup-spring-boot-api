@@ -44,7 +44,7 @@ public class UserController {
 
   @GetMapping
   @ApiOperation("Lấy tất cả user")
-  // @PreAuthorize("hasAuthority('ADMIN')")
+  @PreAuthorize("hasAuthority('ADMIN')")
   public ResponseEntity<UserSearchResponseDto> getUsers(@RequestParam(required = false) String q, Integer page,
       Integer limit, String sortBy, String orderBy) {
     UserSearchRequestDto userSearchRequestDto = new UserSearchRequestDto();
@@ -70,7 +70,7 @@ public class UserController {
     return new ResponseEntity<>(userServive.findAll(userSearchRequestDto), HttpStatus.OK);
   }
 
-  // @PreAuthorize("hasAuthority('ADMIN')")
+  @PreAuthorize("hasAuthority('ADMIN')")
   @GetMapping("/{userId}")
   @ApiOperation("Lấy user theo id")
   @ApiResponses({ @ApiResponse(code = 200, message = "") })
@@ -78,7 +78,7 @@ public class UserController {
     return new ResponseEntity<>(userServive.findById(id), HttpStatus.OK);
   }
 
-  // @PreAuthorize("hasAuthority('ADMIN')")
+  @PreAuthorize("hasAuthority('ADMIN')")
   @PostMapping
   @ApiOperation("Tạo mới một user")
   @ApiResponses({ @ApiResponse(code = 201, message = ""),
@@ -87,7 +87,7 @@ public class UserController {
     return new ResponseEntity<>(userServive.createUser(userRequestDto), HttpStatus.CREATED);
   }
 
-  // @PreAuthorize("hasAuthority('ADMIN')")
+  @PreAuthorize("hasAuthority('ADMIN')")
   @PutMapping("/{id}")
   @ApiOperation("Cập nhật User")
   @ApiResponses({ @ApiResponse(code = 200, message = "") })
@@ -96,7 +96,7 @@ public class UserController {
     return new ResponseEntity<>(userServive.updateUser(id, userRequestDto), HttpStatus.OK);
   }
 
-  // @PreAuthorize("hasAuthority('ADMIN')")
+  @PreAuthorize("hasAuthority('ADMIN')")
   @DeleteMapping("/{id}")
   @ApiOperation("Xoá User")
   @ApiResponses({ @ApiResponse(code = 204, message = "") })
