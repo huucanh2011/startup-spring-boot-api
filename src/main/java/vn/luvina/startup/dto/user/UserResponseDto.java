@@ -24,7 +24,7 @@ public class UserResponseDto {
   @ApiModelProperty(value = "address", example = "Nghia Do, Cau Giay, Ha Noi")
   private String address;
 
-  @ApiModelProperty(value = "phoneNumber", example = "0935000123")
+  @ApiModelProperty(value = "phone_number", example = "0935000123")
   private String phoneNumber;
 
   @ApiModelProperty(value = "address", example = "28, Ngo 34, Nghia Do, Nghia Do, Cau Giay, Ha Noi")

@@ -13,12 +13,16 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import lombok.RequiredArgsConstructor;
+
+import vn.luvina.startup.dto.user.UserRequestDto;
 import vn.luvina.startup.dto.user.UserResponseDto;
 import vn.luvina.startup.dto.user.UserSearchRequestDto;
 import vn.luvina.startup.dto.user.UserSearchResponseDto;
 import vn.luvina.startup.exception.ServiceRuntimeException;
+import vn.luvina.startup.mapper.CreateUserMapper;
 import vn.luvina.startup.mapper.MetaMapper;
 import vn.luvina.startup.model.User;
 import vn.luvina.startup.repository.UserRepository;
@@ -36,6 +40,10 @@ public class UserServiceImpl implements UserServive {
   private final ModelMapper modelMapper;
 
   private final MetaMapper metaMapper;
+
+  private final CreateUserMapper createUserMapper;
+
+  private final PasswordEncoder passwordEncoder;
 
   private SortUserStrategy sortUserStrategy;
 
@@ -106,4 +114,45 @@ public class UserServiceImpl implements UserServive {
     throw new ServiceRuntimeException(HttpStatus.NOT_FOUND, StartupMessages.ERR_USER_001);
   }
 
+  @Override
+  @Transactional
+  public UserResponseDto createUser(UserRequestDto userRequestDto) {
+    if(!userRepository.existsByEmail(userRequestDto.getEmail().toLowerCase())){
+    User userCreated = userRepository.saveAndFlush(createUserMapper.convertReqToUser(userRequestDto));
+    return modelMapper.map(userCreated, UserResponseDto.class);
+  }
+  throw new ServiceRuntimeException(HttpStatus.BAD_REQUEST, StartupMessages.ERR_USER_002);
+}
+
+  @Override
+  public UserResponseDto updateUser(UUID id,UserRequestDto userRequestDto) {
+   
+    modelMapper.getConfiguration().setAmbiguityIgnored(true);
+    User user = userRepository.getById(id);
+    if (user == null){
+      throw new ServiceRuntimeException(HttpStatus.NOT_FOUND, StartupMessages.ERR_USER_001);
+    }
+    user.setName(userRequestDto.getName());
+    user.setEmail(userRequestDto.getEmail());
+    user.setPassword(passwordEncoder.encode(userRequestDto.getPassword()));
+    user.setAvatarPath(userRequestDto.getAvatar_path());
+    user.setAddress(userRequestDto.getAddress());
+    user.setPhoneNumber(userRequestDto.getPhone_number());
+    user.setDeliveryAddress(userRequestDto.getDelivery_address());
+    user.setRole(userRequestDto.getRole());
+    user.setStatus(userRequestDto.getStatus());
+    User userUpdated = userRepository.saveAndFlush(user);
+    return modelMapper.map(userUpdated, UserResponseDto.class);
+  }
+
+  @Override
+  public void delete(UUID id) {
+    User user = userRepository.getById(id);
+    if(user == null){
+      throw new ServiceRuntimeException(HttpStatus.NOT_FOUND, StartupMessages.ERR_USER_001);
+    } else {
+      userRepository.deleteById(id);
+    }
+    
+  }
 }
