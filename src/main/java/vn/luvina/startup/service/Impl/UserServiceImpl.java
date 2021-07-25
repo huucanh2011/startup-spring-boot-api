@@ -162,7 +162,7 @@ public class UserServiceImpl implements UserServive {
     if (user == null) {
       throw new ServiceRuntimeException(HttpStatus.NOT_FOUND, StartupMessages.ERR_USER_001);
     }
-    if (!UserRole.ADMIN.toString().equals(role) && !UserRole.USER.toString().equals(role)) {
+    if (!UserRole.ADMIN.toString().equals(role) || !UserRole.USER.toString().equals(role)) {
       throw new ServiceRuntimeException(HttpStatus.BAD_REQUEST, StartupMessages.ERR_USER_003);
     }
     user.setRole(role);
