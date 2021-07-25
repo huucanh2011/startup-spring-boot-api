@@ -88,7 +88,6 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional(readOnly = true)
-    @Cacheable(key = "#id")
     public Product getProductById(UUID id) {
         Optional<Product> product = productRepository.findById(id);
         if (product.isPresent()) {
@@ -121,7 +120,6 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    @CachePut(key = "#id")
     public Product updateProduct(UUID id, ProductRequestDto productRequestDto) {
         Product product = productRepository.findById(id).get();
         product.setCode(productRequestDto.getCode());
@@ -142,7 +140,6 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    @CacheEvict(key = "#id")
     public Boolean deleteProduct(UUID id) {
         if (id != null) {
             productRepository.deleteById(id);
