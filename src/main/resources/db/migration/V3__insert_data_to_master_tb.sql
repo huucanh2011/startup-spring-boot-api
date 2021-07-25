@@ -16,7 +16,7 @@ VALUES
   ('L', '55-60kg', TRUE);
 
 INSERT INTO
-  order_status (name, slug, )
+  order_status (name, slug)
 VALUES
   ('Đang chuẩn bị', 'dang-chuan-bi'),
   ('Đang lấy hàng', 'dang-lay-hang'),
