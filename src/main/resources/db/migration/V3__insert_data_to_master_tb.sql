@@ -12,8 +12,8 @@ VALUES
   ('M', '50-55kg', 0),
   ('L', '55-60kg', 0),
   ('S', '45-50kg', 1),
-  ('M', '50-55kg', 2),
-  ('L', '55-60kg', 3);
+  ('M', '50-55kg', 1),
+  ('L', '55-60kg', 1);
 
 INSERT INTO
   order_status (name, slug, )
