@@ -5,9 +5,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -49,7 +46,6 @@ public class ProductServiceImpl implements ProductService {
         String sortStatus = searchDto.getSortStatus();
         Sort sort = Sort.by(Sort.Direction.ASC, "name");
 
-
         int limit = Constants.LIMIT_DEFAULT;
         Page<Product> searchResult;
         ProductsSearchAndFilterResponseDto responseResult = new ProductsSearchAndFilterResponseDto();
@@ -69,13 +65,14 @@ public class ProductServiceImpl implements ProductService {
         }
         Pageable pageable = PageRequest.of(pageNumber - 1, limit, sort);
         // Kiểm tra trường hợp search và lọc
-        if(searchValue == null && category == null && stocks == null && priceMin == null ) {
+        if (searchValue == null && category == null && stocks == null && priceMin == null) {
             searchResult = productRepository.findAll(pageable);
         } else {
             if (searchValue != null) {
                 searchValue = searchValue.toUpperCase();
             }
-            searchResult = productRepository.searchAndFilter(searchValue, searchValue, searchValue , priceMin, priceMax, category, stocks, pageable);
+            searchResult = productRepository.searchAndFilter(searchValue, searchValue, searchValue, priceMin, priceMax,
+                    category, stocks, pageable);
         }
         responseResult.setResultSet(searchResult.getContent());
         responseResult.setLimit(limit);
@@ -83,7 +80,6 @@ public class ProductServiceImpl implements ProductService {
         responseResult.setTotalPages(searchResult.getTotalPages());
         responseResult.setTotalCount(searchResult.getTotalElements());
         return responseResult;
-       
     }
 
     @Override
@@ -109,13 +105,12 @@ public class ProductServiceImpl implements ProductService {
         return searchResult.getContent();
     }
 
-
     @Override
     @Transactional
     public Product insertProduct(ProductRequestDto productRequestDto) {
-            Product product = modelMapper.map(productRequestDto, Product.class);
-            product.setSlug(StringUtils.toSlug(product.getName()));
-            return productRepository.saveAndFlush(product);
+        Product product = modelMapper.map(productRequestDto, Product.class);
+        product.setSlug(StringUtils.toSlug(product.getName()));
+        return productRepository.saveAndFlush(product);
     }
 
     @Override
