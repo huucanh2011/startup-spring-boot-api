@@ -164,7 +164,7 @@ public class UserServiceImpl implements UserServive {
     }
     String role = updateRoleRequestDto.getRole();
     System.out.println("Role: " + role);
-    if (!UserRole.ADMIN.toString().equals(role) || !UserRole.USER.toString().equals(role)) {
+    if (!role.equalsIgnoreCase(UserRole.ADMIN.toString()) && !role.equalsIgnoreCase(UserRole.USER.toString())) {
       throw new ServiceRuntimeException(HttpStatus.BAD_REQUEST, StartupMessages.ERR_USER_003);
     }
     user.setRole(role);
