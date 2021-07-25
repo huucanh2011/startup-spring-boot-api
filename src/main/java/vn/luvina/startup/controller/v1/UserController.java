@@ -22,6 +22,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import vn.luvina.startup.dto.user.UpdateRoleRequestDto;
 import vn.luvina.startup.dto.user.UserRequestDto;
 import vn.luvina.startup.dto.user.UserResponseDto;
 import vn.luvina.startup.dto.user.UserSearchRequestDto;
@@ -109,7 +110,8 @@ public class UserController {
   @PatchMapping("/update-role/{id}")
   @ApiOperation("Cập nhật role user")
   @ApiResponses({ @ApiResponse(code = 200, message = "") })
-  public ResponseEntity<UserResponseDto> updateRole(@PathVariable(value = "id") UUID id, @RequestBody String role) {
-    return new ResponseEntity<>(userServive.updateUserRole(id, role), HttpStatus.OK);
+  public ResponseEntity<UserResponseDto> updateRole(@PathVariable(value = "id") UUID id,
+      @RequestBody UpdateRoleRequestDto updateRoleRequestDto) {
+    return new ResponseEntity<>(userServive.updateUserRole(id, updateRoleRequestDto), HttpStatus.OK);
   }
 }

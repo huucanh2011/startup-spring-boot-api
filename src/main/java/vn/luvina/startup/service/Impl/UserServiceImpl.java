@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import lombok.RequiredArgsConstructor;
-
+import vn.luvina.startup.dto.user.UpdateRoleRequestDto;
 import vn.luvina.startup.dto.user.UserRequestDto;
 import vn.luvina.startup.dto.user.UserResponseDto;
 import vn.luvina.startup.dto.user.UserSearchRequestDto;
@@ -157,12 +157,12 @@ public class UserServiceImpl implements UserServive {
   }
 
   @Override
-  public UserResponseDto updateUserRole(UUID id, String role) {
+  public UserResponseDto updateUserRole(UUID id, UpdateRoleRequestDto updateRoleRequestDto) {
     User user = userRepository.getById(id);
     if (user == null) {
       throw new ServiceRuntimeException(HttpStatus.NOT_FOUND, StartupMessages.ERR_USER_001);
     }
-    System.out.println("Role: " + role);
+    String role = updateRoleRequestDto.getRole();
     if (!UserRole.ADMIN.toString().equals(role) || !UserRole.USER.toString().equals(role)) {
       throw new ServiceRuntimeException(HttpStatus.BAD_REQUEST, StartupMessages.ERR_USER_003);
     }
