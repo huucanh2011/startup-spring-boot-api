@@ -8,12 +8,12 @@ VALUES
 INSERT INTO
   m_sizes (name, value, is_shirt)
 VALUES
-  ('S', '45-50kg', 0),
-  ('M', '50-55kg', 0),
-  ('L', '55-60kg', 0),
-  ('S', '45-50kg', 1),
-  ('M', '50-55kg', 1),
-  ('L', '55-60kg', 1);
+  ('M', '50-55kg', FALSE),
+  ('L', '55-60kg', FALSE),
+  ('S', '45-50kg', FALSE),
+  ('S', '45-50kg', TRUE),
+  ('M', '50-55kg', TRUE),
+  ('L', '55-60kg', TRUE);
 
 INSERT INTO
   order_status (name, slug, )
