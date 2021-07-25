@@ -117,42 +117,41 @@ public class UserServiceImpl implements UserServive {
   @Override
   @Transactional
   public UserResponseDto createUser(UserRequestDto userRequestDto) {
-    if(!userRepository.existsByEmail(userRequestDto.getEmail().toLowerCase())){
-    User userCreated = userRepository.saveAndFlush(createUserMapper.convertReqToUser(userRequestDto));
-    return modelMapper.map(userCreated, UserResponseDto.class);
+    if (!userRepository.existsByEmail(userRequestDto.getEmail().toLowerCase())) {
+      User userCreated = userRepository.saveAndFlush(createUserMapper.convertReqToUser(userRequestDto));
+      return modelMapper.map(userCreated, UserResponseDto.class);
+    }
+    throw new ServiceRuntimeException(HttpStatus.BAD_REQUEST, StartupMessages.ERR_USER_002);
   }
-  throw new ServiceRuntimeException(HttpStatus.BAD_REQUEST, StartupMessages.ERR_USER_002);
-}
 
   @Override
-  public UserResponseDto updateUser(UUID id,UserRequestDto userRequestDto) {
-   
+  @Transactional
+  public UserResponseDto updateUser(UUID id, UserRequestDto userRequestDto) {
     modelMapper.getConfiguration().setAmbiguityIgnored(true);
     User user = userRepository.getById(id);
-    if (user == null){
+    if (user == null) {
       throw new ServiceRuntimeException(HttpStatus.NOT_FOUND, StartupMessages.ERR_USER_001);
     }
     user.setName(userRequestDto.getName());
     user.setEmail(userRequestDto.getEmail());
     user.setPassword(passwordEncoder.encode(userRequestDto.getPassword()));
-    user.setAvatarPath(userRequestDto.getAvatar_path());
+    user.setAvatarPath(userRequestDto.getAvatarPath());
     user.setAddress(userRequestDto.getAddress());
-    user.setPhoneNumber(userRequestDto.getPhone_number());
-    user.setDeliveryAddress(userRequestDto.getDelivery_address());
+    user.setPhoneNumber(userRequestDto.getPhoneNumber());
+    user.setDeliveryAddress(userRequestDto.getDeliveryAddress());
     user.setRole(userRequestDto.getRole());
-    user.setStatus(userRequestDto.getStatus());
     User userUpdated = userRepository.saveAndFlush(user);
     return modelMapper.map(userUpdated, UserResponseDto.class);
   }
 
   @Override
+  @Transactional
   public void delete(UUID id) {
     User user = userRepository.getById(id);
-    if(user == null){
+    if (user == null) {
       throw new ServiceRuntimeException(HttpStatus.NOT_FOUND, StartupMessages.ERR_USER_001);
     } else {
       userRepository.deleteById(id);
     }
-    
   }
 }

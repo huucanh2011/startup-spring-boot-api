@@ -83,7 +83,7 @@ public class UserController {
   @ApiOperation("Tạo mới một user")
   @ApiResponses({ @ApiResponse(code = 201, message = ""),
       @ApiResponse(code = 401, message = StartupMessages.ERR_USER_002) })
-  public ResponseEntity<UserResponseDto> create(@Valid @RequestBody UserRequestDto userRequestDto) {
+  public ResponseEntity<UserResponseDto> createUser(@Valid @RequestBody UserRequestDto userRequestDto) {
     return new ResponseEntity<>(userServive.createUser(userRequestDto), HttpStatus.CREATED);
   }
 

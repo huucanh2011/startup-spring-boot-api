@@ -94,8 +94,6 @@ CREATE TABLE order_status (
   id uuid DEFAULT uuid_generate_v4() NOT NULL,
   name VARCHAR(40) NOT NULL,
   slug VARCHAR(40) NOT NULL,
-  entry_date TIMESTAMPTZ NOT NULL,
-  update_date TIMESTAMPTZ DEFAULT NULL,
   PRIMARY KEY (id)
 );
 -- create table orders

@@ -8,8 +8,8 @@ import lombok.Data;
 
 @Data
 public class UserRequestDto {
-    @NotBlank(message = "name không được trống.")
-    @Size(message = "name tối đa 40 kí tự.", max = 40)
+    @NotBlank(message = "Tên không được trống.")
+    @Size(message = "Tên tối đa 40 kí tự.", max = 40)
     private String name;
 
     @ApiModelProperty(value = "email", example = "example@example.xyz")
@@ -24,18 +24,16 @@ public class UserRequestDto {
     private String password;
 
     @Size(message = "avatar_path tối đa 255 kí tự.", max = 255)
-    private String avatar_path;
+    private String avatarPath;
 
     @Size(message = "Địa chỉ tối đa 100 kí tự.", max = 100)
     private String address;
 
     @Size(message = "Số điện thoại tối đa 11 kí tự.", max = 11)
-    private String phone_number;
+    private String phoneNumber;
 
     @Size(message = "Địa chỉ giao hàng tối đa 100 kí tự.", max = 100)
-    private String delivery_address;
+    private String deliveryAddress;
 
     private String role;
-    
-    private String status;
 }
