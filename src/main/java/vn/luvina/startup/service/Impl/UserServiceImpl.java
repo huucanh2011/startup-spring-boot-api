@@ -21,6 +21,7 @@ import vn.luvina.startup.dto.user.UserRequestDto;
 import vn.luvina.startup.dto.user.UserResponseDto;
 import vn.luvina.startup.dto.user.UserSearchRequestDto;
 import vn.luvina.startup.dto.user.UserSearchResponseDto;
+import vn.luvina.startup.enums.UserRole;
 import vn.luvina.startup.exception.ServiceRuntimeException;
 import vn.luvina.startup.mapper.CreateUserMapper;
 import vn.luvina.startup.mapper.MetaMapper;
@@ -153,5 +154,19 @@ public class UserServiceImpl implements UserServive {
     } else {
       userRepository.deleteById(id);
     }
+  }
+
+  @Override
+  public UserResponseDto updateUserRole(UUID id, String role) {
+    User user = userRepository.getById(id);
+    if (user == null) {
+      throw new ServiceRuntimeException(HttpStatus.NOT_FOUND, StartupMessages.ERR_USER_001);
+    }
+    if (!UserRole.ADMIN.toString().equals(role) && !UserRole.USER.toString().equals(role)) {
+      throw new ServiceRuntimeException(HttpStatus.BAD_REQUEST, StartupMessages.ERR_USER_003);
+    }
+    user.setRole(role);
+    User userUpdated = userRepository.saveAndFlush(user);
+    return modelMapper.map(userUpdated, UserResponseDto.class);
   }
 }

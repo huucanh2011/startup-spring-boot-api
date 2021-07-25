@@ -20,4 +20,6 @@ public interface UserServive {
   UserResponseDto updateUser(UUID id, UserRequestDto userRequestDto);
 
   void delete(UUID id);
+
+  UserResponseDto updateUserRole(UUID id, String role);
 }

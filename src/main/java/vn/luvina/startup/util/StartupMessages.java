@@ -20,6 +20,7 @@ public class StartupMessages {
   // User message
   public static final String ERR_USER_001 = "Không tìm thấy user.";
   public static final String ERR_USER_002 = "Đã tồn tại user.";
+  public static final String ERR_USER_003 = "Role không hợp lệ.";
 
   //============MESSAGE RATING================
   public static final String ERR_RATING_001 = "Không tìm thấy đánh giá.";

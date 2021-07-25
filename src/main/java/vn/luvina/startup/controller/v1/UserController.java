@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -103,5 +104,12 @@ public class UserController {
   public ResponseEntity<?> deleteUser(@PathVariable(value = "id") UUID id) {
     userServive.delete(id);
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+  }
+
+  @PatchMapping("/update-role/{id}")
+  @ApiOperation("Cập nhật role user")
+  @ApiResponses({ @ApiResponse(code = 200, message = "") })
+  public ResponseEntity<UserResponseDto> updateRole(@PathVariable(value = "id") UUID id, @RequestBody String role) {
+    return new ResponseEntity<>(userServive.updateUserRole(id, role), HttpStatus.OK);
   }
 }
