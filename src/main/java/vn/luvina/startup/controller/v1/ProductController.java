@@ -56,7 +56,7 @@ public class ProductController {
 
     @PostMapping
     public ResponseEntity<Product> insertProduct(@RequestBody(required = false) ProductRequestDto product) {
-        return new ResponseEntity<>(productService.insertProduct(product), HttpStatus.OK);
+        return new ResponseEntity<>(productService.insertProduct(product), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
@@ -67,7 +67,7 @@ public class ProductController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> deleteProduct(@PathVariable(value = "id") UUID id) {
-        return new ResponseEntity<>(productService.deleteProduct(id), HttpStatus.OK);
+        return new ResponseEntity<>(productService.deleteProduct(id), HttpStatus.NO_CONTENT);
     }
 
 }

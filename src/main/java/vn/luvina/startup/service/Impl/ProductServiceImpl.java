@@ -19,6 +19,7 @@ import vn.luvina.startup.dto.products.ProductRequestDto;
 import vn.luvina.startup.dto.products.ProductSearchRequestDto;
 import vn.luvina.startup.dto.products.ProductsSearchAndFilterResponseDto;
 import vn.luvina.startup.exception.ServiceRuntimeException;
+import vn.luvina.startup.mapper.MetaMapper;
 import vn.luvina.startup.model.Product;
 import vn.luvina.startup.repository.ProductRepository;
 import vn.luvina.startup.service.ProductService;
@@ -33,6 +34,8 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
 
     private final ModelMapper modelMapper;
+
+    private final MetaMapper metaMapper;
 
     @Override
     public ProductsSearchAndFilterResponseDto getAllProduct(ProductSearchRequestDto searchDto) {
@@ -74,11 +77,8 @@ public class ProductServiceImpl implements ProductService {
             searchResult = productRepository.searchAndFilter(searchValue, searchValue, searchValue, priceMin, priceMax,
                     category, stocks, pageable);
         }
-        responseResult.setResultSet(searchResult.getContent());
-        responseResult.setLimit(limit);
-        responseResult.setCurrentPage(pageNumber);
-        responseResult.setTotalPages(searchResult.getTotalPages());
-        responseResult.setTotalCount(searchResult.getTotalElements());
+        responseResult.setData(searchResult.getContent());
+        responseResult.setMeta(metaMapper.convertToMetaResponse(pageNumber, limit, searchResult));
         return responseResult;
     }
 

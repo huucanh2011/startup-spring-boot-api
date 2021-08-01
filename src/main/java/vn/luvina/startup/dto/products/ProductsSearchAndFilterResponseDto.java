@@ -11,8 +11,10 @@ import vn.luvina.startup.model.Product;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductsSearchAndFilterResponseDto extends MetaResponse{
-    
-    private List<Product> resultSet;
+public class ProductsSearchAndFilterResponseDto {
+
+    private List<Product> data;
+
+    private MetaResponse meta;
 
 }
