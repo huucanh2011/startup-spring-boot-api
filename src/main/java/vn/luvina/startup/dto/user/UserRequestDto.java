@@ -18,12 +18,7 @@ public class UserRequestDto {
     @Size(message = "Email tối đa 60 kí tự.", max = 60)
     private String email;
 
-    @ApiModelProperty(value = "password", example = "password")
-    @NotBlank(message = "Mật khẩu không được trống.")
-    @Size(message = "Mật khẩu từ 6 đến 60 kí tự.", min = 6, max = 60)
-    private String password;
-
-    @Size(message = "avatar_path tối đa 255 kí tự.", max = 255)
+    @Size(message = "Avatar path tối đa 255 kí tự.", max = 255)
     private String avatarPath;
 
     @Size(message = "Địa chỉ tối đa 100 kí tự.", max = 100)

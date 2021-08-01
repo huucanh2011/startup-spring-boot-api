@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import lombok.RequiredArgsConstructor;
-import vn.luvina.startup.dto.user.UserRequestDto;
+import vn.luvina.startup.dto.user.CreateUserRequestDto;
 import vn.luvina.startup.enums.UserStatus;
 import vn.luvina.startup.model.User;
 
@@ -14,16 +14,16 @@ public class CreateUserMapper {
     
     private final PasswordEncoder passwordEncoder;
 
-    public User convertReqToUser(UserRequestDto userRequestDto){
+    public User convertReqToUser(CreateUserRequestDto createUserRequestDto){
         User user = new User();
-        user.setName(userRequestDto.getName());
-        user.setEmail(userRequestDto.getEmail());
-        user.setPassword(passwordEncoder.encode(userRequestDto.getPassword()));
-        user.setAvatarPath(userRequestDto.getAvatarPath());
-        user.setAddress(userRequestDto.getAddress());
-        user.setPhoneNumber(userRequestDto.getPhoneNumber());
-        user.setDeliveryAddress(userRequestDto.getDeliveryAddress());
-        user.setRole(userRequestDto.getRole());
+        user.setName(createUserRequestDto.getName());
+        user.setEmail(createUserRequestDto.getEmail());
+        user.setPassword(passwordEncoder.encode(createUserRequestDto.getPassword()));
+        user.setAvatarPath(createUserRequestDto.getAvatarPath());
+        user.setAddress(createUserRequestDto.getAddress());
+        user.setPhoneNumber(createUserRequestDto.getPhoneNumber());
+        user.setDeliveryAddress(createUserRequestDto.getDeliveryAddress());
+        user.setRole(createUserRequestDto.getRole());
         user.setStatus(UserStatus.ACTIVED.toString());
         return user;
     }

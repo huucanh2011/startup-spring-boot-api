@@ -22,8 +22,9 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import vn.luvina.startup.dto.user.CreateUserRequestDto;
 import vn.luvina.startup.dto.user.UpdateRoleRequestDto;
-import vn.luvina.startup.dto.user.UserRequestDto;
+import vn.luvina.startup.dto.user.UpdateUserRequestDto;
 import vn.luvina.startup.dto.user.UserResponseDto;
 import vn.luvina.startup.dto.user.UserSearchRequestDto;
 import vn.luvina.startup.dto.user.UserSearchResponseDto;
@@ -85,8 +86,8 @@ public class UserController {
   @ApiOperation("Tạo mới một user")
   @ApiResponses({ @ApiResponse(code = 201, message = ""),
       @ApiResponse(code = 401, message = StartupMessages.ERR_USER_002) })
-  public ResponseEntity<UserResponseDto> createUser(@Valid @RequestBody UserRequestDto userRequestDto) {
-    return new ResponseEntity<>(userServive.createUser(userRequestDto), HttpStatus.CREATED);
+  public ResponseEntity<UserResponseDto> createUser(@Valid @RequestBody CreateUserRequestDto createUserRequestDto) {
+    return new ResponseEntity<>(userServive.createUser(createUserRequestDto), HttpStatus.CREATED);
   }
 
   @PreAuthorize("hasAuthority('ADMIN')")
@@ -94,8 +95,8 @@ public class UserController {
   @ApiOperation("Cập nhật User")
   @ApiResponses({ @ApiResponse(code = 200, message = "") })
   public ResponseEntity<UserResponseDto> updateUser(@PathVariable(value = "id") UUID id,
-      @Valid @RequestBody UserRequestDto userRequestDto) {
-    return new ResponseEntity<>(userServive.updateUser(id, userRequestDto), HttpStatus.OK);
+      @Valid @RequestBody UpdateUserRequestDto updateUserRequestDto) {
+    return new ResponseEntity<>(userServive.updateUser(id, updateUserRequestDto), HttpStatus.OK);
   }
 
   @PreAuthorize("hasAuthority('ADMIN')")

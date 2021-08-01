@@ -13,11 +13,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import lombok.RequiredArgsConstructor;
+import vn.luvina.startup.dto.user.CreateUserRequestDto;
 import vn.luvina.startup.dto.user.UpdateRoleRequestDto;
-import vn.luvina.startup.dto.user.UserRequestDto;
+import vn.luvina.startup.dto.user.UpdateUserRequestDto;
 import vn.luvina.startup.dto.user.UserResponseDto;
 import vn.luvina.startup.dto.user.UserSearchRequestDto;
 import vn.luvina.startup.dto.user.UserSearchResponseDto;
@@ -43,8 +43,6 @@ public class UserServiceImpl implements UserServive {
   private final MetaMapper metaMapper;
 
   private final CreateUserMapper createUserMapper;
-
-  private final PasswordEncoder passwordEncoder;
 
   private SortUserStrategy sortUserStrategy;
 
@@ -117,9 +115,9 @@ public class UserServiceImpl implements UserServive {
 
   @Override
   @Transactional
-  public UserResponseDto createUser(UserRequestDto userRequestDto) {
-    if (!userRepository.existsByEmail(userRequestDto.getEmail().toLowerCase())) {
-      User userCreated = userRepository.saveAndFlush(createUserMapper.convertReqToUser(userRequestDto));
+  public UserResponseDto createUser(CreateUserRequestDto createUserRequestDto) {
+    if (!userRepository.existsByEmail(createUserRequestDto.getEmail().toLowerCase())) {
+      User userCreated = userRepository.saveAndFlush(createUserMapper.convertReqToUser(createUserRequestDto));
       return modelMapper.map(userCreated, UserResponseDto.class);
     }
     throw new ServiceRuntimeException(HttpStatus.BAD_REQUEST, StartupMessages.ERR_USER_002);
@@ -127,20 +125,19 @@ public class UserServiceImpl implements UserServive {
 
   @Override
   @Transactional
-  public UserResponseDto updateUser(UUID id, UserRequestDto userRequestDto) {
+  public UserResponseDto updateUser(UUID id, UpdateUserRequestDto updateUserRequestDto) {
     modelMapper.getConfiguration().setAmbiguityIgnored(true);
     User user = userRepository.getById(id);
     if (user == null) {
       throw new ServiceRuntimeException(HttpStatus.NOT_FOUND, StartupMessages.ERR_USER_001);
     }
-    user.setName(userRequestDto.getName());
-    user.setEmail(userRequestDto.getEmail());
-    user.setPassword(passwordEncoder.encode(userRequestDto.getPassword()));
-    user.setAvatarPath(userRequestDto.getAvatarPath());
-    user.setAddress(userRequestDto.getAddress());
-    user.setPhoneNumber(userRequestDto.getPhoneNumber());
-    user.setDeliveryAddress(userRequestDto.getDeliveryAddress());
-    user.setRole(userRequestDto.getRole());
+    user.setName(updateUserRequestDto.getName());
+    user.setEmail(updateUserRequestDto.getEmail());
+    user.setAvatarPath(updateUserRequestDto.getAvatarPath());
+    user.setAddress(updateUserRequestDto.getAddress());
+    user.setPhoneNumber(updateUserRequestDto.getPhoneNumber());
+    user.setDeliveryAddress(updateUserRequestDto.getDeliveryAddress());
+    user.setRole(updateUserRequestDto.getRole());
     User userUpdated = userRepository.saveAndFlush(user);
     return modelMapper.map(userUpdated, UserResponseDto.class);
   }

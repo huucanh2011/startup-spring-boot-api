@@ -2,8 +2,9 @@ package vn.luvina.startup.service;
 
 import java.util.UUID;
 
+import vn.luvina.startup.dto.user.CreateUserRequestDto;
 import vn.luvina.startup.dto.user.UpdateRoleRequestDto;
-import vn.luvina.startup.dto.user.UserRequestDto;
+import vn.luvina.startup.dto.user.UpdateUserRequestDto;
 import vn.luvina.startup.dto.user.UserResponseDto;
 import vn.luvina.startup.dto.user.UserSearchRequestDto;
 import vn.luvina.startup.dto.user.UserSearchResponseDto;
@@ -16,9 +17,9 @@ public interface UserServive {
 
   UserResponseDto findById(UUID id);
 
-  UserResponseDto createUser(UserRequestDto userRequestDto);
+  UserResponseDto createUser(CreateUserRequestDto createUserRequestDto);
 
-  UserResponseDto updateUser(UUID id, UserRequestDto userRequestDto);
+  UserResponseDto updateUser(UUID id, UpdateUserRequestDto updateUserRequestDto);
 
   void delete(UUID id);
 
