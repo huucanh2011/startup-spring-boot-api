@@ -4,6 +4,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,6 +22,7 @@ public class User extends BaseModel {
   private String email;
 
   @Column(name = "password", length = 60)
+  @JsonIgnore
   private String password;
 
   @Column(name = "avatar_path", length = 255)
