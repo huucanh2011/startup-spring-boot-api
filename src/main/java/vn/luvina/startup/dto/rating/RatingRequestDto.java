@@ -17,6 +17,6 @@ public class RatingRequestDto {
   @ApiModelProperty(value = "content", example = "Rất tốt")
   private String content;
 
-  @ApiModelProperty(value = "userId", example = "3fa85f64-5717-4562-b3fc-2c963f66afa6")
-  private UUID userId;
+  @ApiModelProperty(value = "productId", example = "3fa85f64-5717-4562-b3fc-2c963f66afa6")
+  private UUID productId;
 }

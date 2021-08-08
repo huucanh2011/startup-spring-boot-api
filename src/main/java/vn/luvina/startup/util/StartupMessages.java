@@ -22,23 +22,26 @@ public class StartupMessages {
   public static final String ERR_USER_002 = "Đã tồn tại user.";
   public static final String ERR_USER_003 = "Role không hợp lệ.";
 
-  //============MESSAGE RATING================
+  // ============MESSAGE RATING================
   public static final String ERR_RATING_001 = "Không tìm thấy đánh giá.";
   public static final String ERR_RATING_002 = "Danh sách đánh giá đang trống.";
   public static final String ERR_RATING_003 = "Số record trên một page không hợp lệ";
 
-  //============MESSAGE SLIDE================
+  // ============MESSAGE SLIDE================
   public static final String ERR_SLIDE_001 = "Không tìm thấy slide.";
   public static final String ERR_SLIDE_002 = "Danh sách slide đang trống.";
 
-  //============MESSAGE SIZE================
+  // ============MESSAGE SIZE================
   public static final String ERR_SIZE_001 = "Không tìm thấy Size.";
   public static final String ERR_SIZE_002 = "Danh sách Size đang trống.";
 
-  //============MESSAGE BRAND================
+  // ============MESSAGE BRAND================
   public static final String ERR_BRAND_001 = "Không tìm thấy Brand.";
   public static final String ERR_BRAND_002 = "Danh sách Brand đang trống.";
 
-  //Product Message.
+  // Product Message.
   public static final String ERR_PRO_001 = "Thao tác không thành công";
+
+  // common
+  public static final String ERR_COMMOM_001 = "Bạn không có quyền truy cập tài nguyên này.";
 }

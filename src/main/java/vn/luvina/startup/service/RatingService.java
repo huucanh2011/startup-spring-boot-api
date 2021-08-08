@@ -8,6 +8,7 @@ import vn.luvina.startup.dto.rating.RatingRequestDto;
 import vn.luvina.startup.dto.rating.RatingResponseDto;
 import vn.luvina.startup.dto.rating.RatingSearchRequestDto;
 import vn.luvina.startup.dto.rating.RatingSearchResponseDto;
+import vn.luvina.startup.dto.rating.UpdateStatusRatingRequestDto;
 import vn.luvina.startup.model.Rating;
 
 public interface RatingService {
@@ -22,7 +23,7 @@ public interface RatingService {
   RatingResponseDto getOne(UUID id);
 
   @Transactional
-  RatingResponseDto create(UUID productId, RatingRequestDto ratingRequestDto);
+  RatingResponseDto create(RatingRequestDto ratingRequestDto);
 
   @Transactional
   RatingResponseDto update(UUID id, RatingRequestDto ratingRequestDto);
@@ -34,5 +35,5 @@ public interface RatingService {
   RatingSearchResponseDto getRatingByProduct(UUID productId, RatingSearchRequestDto reqRating);
 
   @Transactional
-  RatingResponseDto updateState(UUID id, boolean isActive);
+  RatingResponseDto updateState(UUID id, UpdateStatusRatingRequestDto updateStatusRatingRequestDto);
 }
