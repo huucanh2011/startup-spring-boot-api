@@ -24,7 +24,7 @@ public class StartupMessages {
 
   // ============MESSAGE RATING================
   public static final String ERR_RATING_001 = "Không tìm thấy đánh giá.";
-  public static final String ERR_RATING_002 = "Danh sách đánh giá đang trống.";
+  // public static final String ERR_RATING_002 = "Danh sách đánh giá đang trống.";
   public static final String ERR_RATING_003 = "Số record trên một page không hợp lệ";
 
   // ============MESSAGE SLIDE================

@@ -2,7 +2,6 @@ package vn.luvina.startup.service.Impl;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -13,7 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import vn.luvina.startup.dto.base.MetaResponse;
 import vn.luvina.startup.dto.rating.RatingRequestDto;
 import vn.luvina.startup.dto.rating.RatingResponseDto;
 import vn.luvina.startup.dto.rating.RatingSearchRequestDto;
@@ -58,14 +56,9 @@ public class RatingServiceImpl implements RatingService {
     Pageable pageable = PageRequest.of(page - 1, limit, Sort.by("updateDate").descending());
     Page<Rating> pageRating = ratingRepository.findAll(pageable);
     List<Rating> listRating = pageRating.getContent();
-    if (listRating.isEmpty()) {
-      throw new ServiceRuntimeException(HttpStatus.NO_CONTENT, StartupMessages.ERR_RATING_002);
-    }
     RatingSearchResponseDto ratingSearchResponseDto = new RatingSearchResponseDto();
-    ratingSearchResponseDto.setData(listRating.stream().map(rating -> modelMapper.map(rating, RatingResponseDto.class))
-        .collect(Collectors.toList()));
-    MetaResponse metaResponse = metaMapper.convertToMetaResponse(page, limit, pageRating);
-    ratingSearchResponseDto.setMeta(metaResponse);
+    ratingSearchResponseDto.setData(listRating);
+    ratingSearchResponseDto.setMeta(metaMapper.convertToMetaResponse(page, limit, pageRating));
     return ratingSearchResponseDto;
   }
 
@@ -127,12 +120,8 @@ public class RatingServiceImpl implements RatingService {
     Page<Rating> pageRating = ratingRepository.findAllByProductIdAndIsActiveOrderByEntryDateDesc(productId, true,
         pageable);
     List<Rating> listRating = pageRating.getContent();
-    if (listRating.isEmpty()) {
-      throw new ServiceRuntimeException(HttpStatus.NO_CONTENT, StartupMessages.ERR_RATING_002);
-    }
     RatingSearchResponseDto ratingSearchResponseDto = new RatingSearchResponseDto();
-    ratingSearchResponseDto.setData(listRating.stream().map(rating -> modelMapper.map(rating, RatingResponseDto.class))
-        .collect(Collectors.toList()));
+    ratingSearchResponseDto.setData(listRating);
     ratingSearchResponseDto.setMeta(metaMapper.convertToMetaResponse(page, limit, pageRating));
     return ratingSearchResponseDto;
   }

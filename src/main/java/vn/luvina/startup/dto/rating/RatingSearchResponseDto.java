@@ -4,10 +4,11 @@ import java.util.List;
 
 import lombok.Data;
 import vn.luvina.startup.dto.base.MetaResponse;
+import vn.luvina.startup.model.Rating;
 
 @Data
 public class RatingSearchResponseDto {
-  private List<RatingResponseDto> data;
+  private List<Rating> data;
 
   private MetaResponse meta;
 }
