@@ -10,8 +10,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.apache.catalina.User;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
