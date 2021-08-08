@@ -8,10 +8,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -19,9 +17,7 @@ import lombok.ToString;
 @Setter
 @Entity
 @Table(name = "products")
-@AllArgsConstructor
-@NoArgsConstructor
-public class Product extends BaseModel{
+public class Product extends BaseModel {
 
     @ManyToOne
     @JoinColumn(name = "size_id", insertable = false, updatable = false)
@@ -34,7 +30,7 @@ public class Product extends BaseModel{
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private MBrand mBrand;
- 
+
     @ManyToOne
     @JoinColumn(name = "category_id", insertable = false, updatable = false)
     @EqualsAndHashCode.Exclude

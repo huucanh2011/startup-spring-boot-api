@@ -1,31 +1,32 @@
 package vn.luvina.startup.model;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.apache.catalina.User;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-import lombok.Data;
-
+@Getter
+@Setter
 @Entity
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-@Data
 @Table(name = "ratings")
-public class Rating {
+public class Rating extends BaseModel {
   @Id
   @GeneratedValue
   @Column(name = "id", unique = true)
   private UUID id;
-  
+
   @Column(name = "scores")
   private Integer scores;
 
@@ -38,15 +39,19 @@ public class Rating {
   @Column(name = "product_id")
   private UUID productId;
 
+  @ManyToOne
+  @JoinColumn(name = "product_id", insertable = false, updatable = false)
+  @EqualsAndHashCode.Exclude
+  @ToString.Exclude
+  private Product product;
+
   @Column(name = "user_id")
   private UUID userId;
 
-  @Column(name = "entry_date", updatable = false, nullable = false)
-  @CreationTimestamp
-  private LocalDateTime entryDate;
-
-  @Column(name = "update_date", nullable = false)
-  @UpdateTimestamp
-  private LocalDateTime updateDate;
+  @ManyToOne
+  @JoinColumn(name = "user_id", insertable = false, updatable = false)
+  @EqualsAndHashCode.Exclude
+  @ToString.Exclude
+  private User user;
 
 }
