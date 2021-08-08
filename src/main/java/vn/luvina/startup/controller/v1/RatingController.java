@@ -26,6 +26,7 @@ import vn.luvina.startup.dto.rating.RatingResponseDto;
 import vn.luvina.startup.dto.rating.RatingSearchRequestDto;
 import vn.luvina.startup.dto.rating.RatingSearchResponseDto;
 import vn.luvina.startup.dto.rating.UpdateStatusRatingRequestDto;
+import vn.luvina.startup.model.Rating;
 import vn.luvina.startup.service.RatingService;
 
 @RestController
@@ -55,7 +56,7 @@ public class RatingController {
   @PatchMapping("/{ratingId}")
   @ApiOperation("Cập nhật trạng thái đánh giá")
   @ApiResponses({ @ApiResponse(code = 200, message = "") })
-  public ResponseEntity<RatingResponseDto> updateStateRating(@PathVariable(value = "ratingId") UUID id,
+  public ResponseEntity<Rating> updateStateRating(@PathVariable(value = "ratingId") UUID id,
       @Valid @RequestBody UpdateStatusRatingRequestDto updateStatusRatingRequestDto) {
     return new ResponseEntity<>(ratingService.updateState(id, updateStatusRatingRequestDto), HttpStatus.OK);
   }

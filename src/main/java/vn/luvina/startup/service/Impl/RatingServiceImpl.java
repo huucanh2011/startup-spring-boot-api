@@ -53,7 +53,7 @@ public class RatingServiceImpl implements RatingService {
       page = reqPage;
     }
 
-    Pageable pageable = PageRequest.of(page - 1, limit, Sort.by("updateDate").descending());
+    Pageable pageable = PageRequest.of(page - 1, limit, Sort.by("entryDate").descending());
     Page<Rating> pageRating = ratingRepository.findAll(pageable);
     List<Rating> listRating = pageRating.getContent();
     RatingSearchResponseDto ratingSearchResponseDto = new RatingSearchResponseDto();
