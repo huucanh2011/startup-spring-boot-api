@@ -7,9 +7,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import vn.luvina.startup.dto.slide.SlideRequestDto;
 import vn.luvina.startup.dto.slide.SlideResponseDto;
+import vn.luvina.startup.dto.slide.UpdateStatusSlideRequestDto;
 
 public interface SlideService {
-  @Transactional(readOnly=true)
+  @Transactional(readOnly = true)
   List<SlideResponseDto> getAllSlide();
 
   @Transactional(readOnly = true)
@@ -25,7 +26,6 @@ public interface SlideService {
   void delete(UUID id);
 
   @Transactional
-  SlideResponseDto updateStatus(UUID id, boolean isActive);
-
+  SlideResponseDto updateStatus(UUID id, UpdateStatusSlideRequestDto updateStatusSlideRequestDto);
 
 }

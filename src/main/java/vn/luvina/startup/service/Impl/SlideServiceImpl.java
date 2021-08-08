@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import vn.luvina.startup.dto.slide.SlideRequestDto;
 import vn.luvina.startup.dto.slide.SlideResponseDto;
+import vn.luvina.startup.dto.slide.UpdateStatusSlideRequestDto;
 import vn.luvina.startup.exception.ServiceRuntimeException;
 import vn.luvina.startup.model.Slide;
 import vn.luvina.startup.repository.SlideRepository;
@@ -26,20 +27,18 @@ public class SlideServiceImpl implements SlideService {
   @Override
   public List<SlideResponseDto> getAllSlide() {
     List<Slide> listSlide = slideRespository.findAll();
-    if(listSlide.isEmpty()){
-      throw new ServiceRuntimeException(HttpStatus.NO_CONTENT, StartupMessages.ERR_SLIDE_002);
-    }
-    return listSlide.stream().map(slide -> modelMapper.map(slide, SlideResponseDto.class))
-          .collect(Collectors.toList());
+    return listSlide.stream().map(slide -> modelMapper.map(slide, SlideResponseDto.class)).collect(Collectors.toList());
   }
+
   @Override
   public SlideResponseDto getSlide(UUID id) {
     Slide slide = slideRespository.findById(id).orElse(null);
-    if(slide != null){
+    if (slide != null) {
       return modelMapper.map(slide, SlideResponseDto.class);
     }
     throw new ServiceRuntimeException(HttpStatus.NOT_FOUND, StartupMessages.ERR_SLIDE_001);
   }
+
   @Override
   public SlideResponseDto create(SlideRequestDto slideRequestDto) {
     modelMapper.getConfiguration().setAmbiguityIgnored(true);
@@ -48,11 +47,12 @@ public class SlideServiceImpl implements SlideService {
     Slide slideCreated = slideRespository.saveAndFlush(slide);
     return modelMapper.map(slideCreated, SlideResponseDto.class);
   }
+
   @Override
   public SlideResponseDto update(UUID id, SlideRequestDto slideRequestDto) {
     modelMapper.getConfiguration().setAmbiguityIgnored(true);
     Slide slide = slideRespository.getById(id);
-    if(slide == null){
+    if (slide == null) {
       throw new ServiceRuntimeException(HttpStatus.NOT_FOUND, StartupMessages.ERR_SLIDE_001);
     }
     slide.setTitle(slideRequestDto.getTitle());
@@ -61,24 +61,25 @@ public class SlideServiceImpl implements SlideService {
     Slide slideUpdated = slideRespository.saveAndFlush(slide);
     return modelMapper.map(slideUpdated, SlideResponseDto.class);
   }
+
   @Override
   public void delete(UUID id) {
     Slide slide = slideRespository.getById(id);
-    if(slide == null){
+    if (slide == null) {
       throw new ServiceRuntimeException(HttpStatus.NOT_FOUND, StartupMessages.ERR_SLIDE_001);
     } else {
       slideRespository.deleteById(id);
     }
-    
   }
+
   @Override
-  public SlideResponseDto updateStatus(UUID id, boolean isActive) {
+  public SlideResponseDto updateStatus(UUID id, UpdateStatusSlideRequestDto updateStatusSlideRequestDto) {
     modelMapper.getConfiguration().setAmbiguityIgnored(true);
     Slide slide = slideRespository.getById(id);
-    if(slide == null){
+    if (slide == null) {
       throw new ServiceRuntimeException(HttpStatus.NOT_FOUND, StartupMessages.ERR_SLIDE_001);
     }
-    slide.setActive(isActive);
+    slide.setActive(updateStatusSlideRequestDto.getIsActive());
     Slide slideUpdated = slideRespository.saveAndFlush(slide);
     return modelMapper.map(slideUpdated, SlideResponseDto.class);
   }
