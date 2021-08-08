@@ -35,5 +35,5 @@ public interface RatingService {
   RatingSearchResponseDto getRatingByProduct(UUID productId, RatingSearchRequestDto reqRating);
 
   @Transactional
-  RatingResponseDto updateState(UUID id, UpdateStatusRatingRequestDto updateStatusRatingRequestDto);
+  Rating updateState(UUID id, UpdateStatusRatingRequestDto updateStatusRatingRequestDto);
 }

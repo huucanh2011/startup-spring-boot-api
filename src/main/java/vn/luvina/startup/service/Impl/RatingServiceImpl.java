@@ -127,15 +127,14 @@ public class RatingServiceImpl implements RatingService {
   }
 
   @Override
-  public RatingResponseDto updateState(UUID id, UpdateStatusRatingRequestDto updateStatusRatingRequestDto) {
-    modelMapper.getConfiguration().setAmbiguityIgnored(true);
+  public Rating updateState(UUID id, UpdateStatusRatingRequestDto updateStatusRatingRequestDto) {
     Rating rating = ratingRepository.findById(id).orElse(null);
     if (rating == null) {
       throw new ServiceRuntimeException(HttpStatus.NOT_FOUND, StartupMessages.ERR_RATING_001);
     }
     rating.setActive(updateStatusRatingRequestDto.getIsActive());
     Rating ratingUpdatedState = ratingRepository.saveAndFlush(rating);
-    return modelMapper.map(ratingUpdatedState, RatingResponseDto.class);
+    return ratingUpdatedState;
   }
 
 }
